@@ -1,0 +1,7 @@
+<div class="card">
+    <div class="card-body">
+        Currently, {{ rate.amount }} {{ rate.base }} is {{rate.rates['USD']}} USD
+        <hr>
+        <button class="btn btn-primary" (click) = "refreshRate()">Refresh rate</button>
+    </div>
+</div>
