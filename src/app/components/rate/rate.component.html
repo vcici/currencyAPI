@@ -1,7 +1,17 @@
-<div class="card">
-    <div class="card-body">
+<div class="card" *ngIf="!isLoading && !isError">
+    <div class="card-body" >
         Currently, {{ rate.amount }} {{ rate.base }} is {{rate.rates['USD']}} USD
         <hr>
         <button class="btn btn-primary" (click) = "refreshRate()">Refresh rate</button>
+    </div>
+</div>
+<div class="card" *ngIf="isLoading">
+    <div class="card-body">
+        <div class="alert alert-info">Loading ...</div>
+    </div>
+</div>
+<div class="card" *ngIf="isError">
+    <div class="card-body">
+        <div class="alert alert-danger">Įvyko klaida. Bandykite vėliau.</div>
     </div>
 </div>
