@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Currency } from 'src/app/models/currency';
 import { DataResponse, Rates } from 'src/app/models/rate';
 import { RateService } from 'src/app/services/rate.service';
 
@@ -13,23 +14,32 @@ export class RateComponent implements OnInit {
     base: '',
     date: '',
     rates: {
-      USD: 0
     }
   }
+
+  public from:string = "";
+  public to:string = "";
+  public currencies:Currency[]=[];
+
+
   public isLoading:boolean=true;
   public isError:boolean=false;
+  public isData:boolean = false;
 
   constructor(private rateService:RateService) { }
 
   ngOnInit(): void {
-    this.loadRate();
+    this.rateService.loadCurrencies().subscribe((response)=>{
+      this.currencies = this.rateService.getCurrencies();
+    });
   }
 
   private loadRate(){
-    this.rateService.loadRate().subscribe({
+    this.rateService.loadRate(this.from, this.to).subscribe({
       next:(response) => {
         this.rate = response;
         this.isLoading=false;
+        this.isData = true;
       },
       error:(error)=>{
         this.isLoading=false;

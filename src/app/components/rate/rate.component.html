@@ -1,17 +1,38 @@
-<div class="card" *ngIf="!isLoading && !isError">
-    <div class="card-body" >
-        Currently, {{ rate.amount }} {{ rate.base }} is {{rate.rates['USD']}} USD
-        <hr>
-        <button class="btn btn-primary" (click) = "refreshRate()">Refresh rate</button>
+<div class="row">
+    <div class="col-md-6 mt-5">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="" class="form-label">Pasirinkite valiutas</label>
+                    <select class="form-control" [(ngModel)]="from">
+                        <option *ngFor="let currency of currencies" [value]="currency.code" >{{currency.name}}</option>
+                    </select>
+                    <select class="form-control" [(ngModel)]="to">
+                        <option *ngFor="let currency of currencies" [value]="currency.code" >{{currency.name}}</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" (click)="refreshRate()" [disabled]='from=="" || to==""'>Rodyti</button>
+            </div>
+        </div>
     </div>
-</div>
-<div class="card" *ngIf="isLoading">
-    <div class="card-body">
-        <div class="alert alert-info">Loading ...</div>
+    <div class="col-md-6 mt-5">
+        <div class="card" *ngIf="!isLoading && !isError && isData">
+            <div class="card-body" >
+                Currently, {{ rate.amount }} {{ rate.base }} is {{rate.rates[to]}} {{to}}
+                <hr>
+                <button class="btn btn-primary" (click) = "refreshRate()">Refresh rate</button>
+            </div>
+        </div>
+        <div class="card" *ngIf="isLoading && isData">
+            <div class="card-body">
+                <div class="alert alert-info">Loading ...</div>
+            </div>
+        </div>
+        <div class="card" *ngIf="isError">
+            <div class="card-body">
+                <div class="alert alert-danger">Įvyko klaida. Bandykite vėliau.</div>
+            </div>
+        </div>
     </div>
-</div>
-<div class="card" *ngIf="isError">
-    <div class="card-body">
-        <div class="alert alert-danger">Įvyko klaida. Bandykite vėliau.</div>
-    </div>
+    
 </div>
